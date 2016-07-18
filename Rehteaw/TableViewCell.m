@@ -24,7 +24,6 @@
     RAC(self.cityName, text) = RACObserve(self, city.name);
     RAC(self.country, text) = RACObserve(self, city.country);
     RAC(self, urlImage) = RACObserve(self, city.url);
-    NSLog(@"%@", _urlImage);
     
     NSURL *urlimg = [NSURL URLWithString:_urlImage];
     NSData *data = [NSData dataWithContentsOfURL:urlimg];

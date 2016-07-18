@@ -40,7 +40,7 @@ static NSString  const *apiKey = @"84a6f0789786632c";
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     [blurEffectView setFrame:_tableView.bounds];
     self.tableView.backgroundView = blurEffectView;
-   self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [ self getFetchResultController];
     
     [self.tableView registerNib:[UINib
@@ -50,10 +50,6 @@ static NSString  const *apiKey = @"84a6f0789786632c";
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:refreshControl];
-
-    
-    
-
 
     
 }
@@ -70,6 +66,17 @@ static NSString  const *apiKey = @"84a6f0789786632c";
         });
     });
 }
+
+
+-(void)fetchNewDataWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+    completionHandler(UIBackgroundFetchResultNewData);
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 1;
+    NSLog(@"Odświeżam");
+    [self refresh:nil];
+    NSLog(@" Kończe odświeżanie");
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -124,11 +131,23 @@ static NSString  const *apiKey = @"84a6f0789786632c";
             NSString *temp = [(NSNumber *)_json[@"current_observation"][@"temp_c"] stringValue];
             city.temp = [NSString stringWithFormat:@"%@ °C",temp];
             city.url = (NSString *)_json[@"current_observation"][@"icon_url"];
-            
             if (zmienna == [@([cities count]) intValue])
             {
                 [refreshControl endRefreshing];
             }
+            
+            if ([(NSString *)_json[@"current_observation"][@"icon_url"] isEqualToString:@"http://icons.wxug.com/i/c/k/rain.gif"])
+            {
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                NSDate *now = [NSDate date];
+                localNotification.fireDate = now;
+                localNotification.alertBody = [NSString stringWithFormat:@"Pada w mieście %@", city.name];
+                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                localNotification.applicationIconBadgeNumber = 0;
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                NSLog(@" Pada");
+            }
+
             
             
         } failure:^(NSURLSessionTask *operation, NSError *error) {
@@ -139,6 +158,7 @@ static NSString  const *apiKey = @"84a6f0789786632c";
         
     }
     [appDelegate.managedObjectContext save:&error];
+    
 }
 
 - (NSManagedObjectContext *)managedObjectContext

@@ -84,7 +84,7 @@
         <!--Strona główna-->
         <scene sceneID="hQC-hK-bNC">
             <objects>
-                <viewController id="fBW-cc-A51" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="fBW-cc-A51" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6Uk-VG-CQH"/>
                         <viewControllerLayoutGuide type="bottom" id="hOU-0n-7Pa"/>

@@ -22,6 +22,8 @@
 @property (strong, nonatomic) NSFetchedResultsController *cityFetchResultController;
 @property (strong, nonatomic) NSDictionary *json;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sideBarButton;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;
+-(void)fetchNewDataWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler;
 
 @end
 
