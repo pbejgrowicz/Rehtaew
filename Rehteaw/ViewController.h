@@ -7,9 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import <SWRevealViewController/SWRevealViewController.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+#import "AppDelegate.h"
+#import "City.h"
+#import "TableViewCell.h"
+#import "DetailViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, TableViewCellDelegate>
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSFetchedResultsController *cityFetchResultController;
+@property (strong, nonatomic) NSDictionary *json;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sideBarButton;
 
 @end
 
